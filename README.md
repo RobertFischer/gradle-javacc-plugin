@@ -1,0 +1,31 @@
+# JavaCC Compiler Plugin for Gradle 
+
+Provides the ability to use [JavaCC](http://javacc.java.net/) and [JJTree](http://javacc.java.net/doc/JJTree.html) 
+via [Gradle](http://www.gradle.org/).  It plugs JavaCC and JJTree directly into the standard Gradle compile system, 
+producing bytecode the same way the Java plugin does.
+
+## Installation
+
+Add the following lines to your `build.gradle` script:
+
+    apply plugin:com.smokejumperit.gradle.compiler.JavaccPlugin
+    apply plugin:com.smokejumperit.gradle.compiler.JJTreePlugin
+
+    buildscript {
+      repositories {
+        mavenRepo urls:'http://repo.smokejumperit.com'
+      }
+      dependencies {
+        classpath 'com.smokejumperit.gradle.compiler:javacc:0.0.1'
+      }
+    }
+
+## Usage
+
+Place your JavaCC code into `./src/main/javacc`. If you have source 
+sets other than `main` (if you don't know what that means, you don't), then replace `main` with the name of the source set.
+The generated code plus any other Java files will end up in `./src/main/javacc-gen`, and will be compiled as part of the Java compile.
+
+To use JJTree, place JJTree code into `./src/main/jjtree`, and it is generated into `./src/main/jjtree-gen`, and compiled with the 
+normal JavaCC compile.
+
