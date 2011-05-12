@@ -30,3 +30,5 @@ To use JJTree, place JJTree code into `./src/main/jjtree`, and it is generated i
 normal JavaCC compile. Due to the magic of transitivity, the generated JavaCC code is itself generated and compiled as part of the Java
 compile.
 
+Java files beside (or beneath) JavaCC/JJTree files, and JavaCC files beside (or beneath) JJTree files are also processed. This is 
+intended as a convenience for those who were using the JavaCC plugin.
