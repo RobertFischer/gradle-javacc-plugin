@@ -24,8 +24,9 @@ Add the following lines to your `build.gradle` script:
 
 Place your JavaCC code into `./src/main/javacc`. If you have source 
 sets other than `main` (if you don't know what that means, you don't), then replace `main` with the name of the source set.
-The generated code plus any other Java files will end up in `./src/main/javacc-gen`, and will be compiled as part of the Java compile.
+The generated code plus any other Java files will end up in `./build/javacc-gen/main`, and will be compiled as part of the Java compile.
 
-To use JJTree, place JJTree code into `./src/main/jjtree`, and it is generated into `./src/main/jjtree-gen`, and compiled with the 
-normal JavaCC compile.
+To use JJTree, place JJTree code into `./src/main/jjtree`, and it is generated into `./build/jjtree-gen/main`, and compiled with the 
+normal JavaCC compile. Due to the magic of transitivity, the generated JavaCC code is itself generated and compiled as part of the Java
+compile.
 
