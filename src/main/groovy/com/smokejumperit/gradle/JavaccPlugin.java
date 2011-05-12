@@ -13,7 +13,7 @@ import com.smokejumperit.gradle.compilers.CompilerPlugin;
 import java.util.*;
 import java.io.*;
 
-public class JavaccPlugin extends CompilerPlugin<JavaccCompile, SourceTask> implements Plugin<Project> {
+public class JavaccPlugin extends CompilerPlugin<JavaccCompile> implements Plugin<Project> {
 
   /**
   * The file suffixes specific to the language of this compiler. 
@@ -34,11 +34,6 @@ public class JavaccPlugin extends CompilerPlugin<JavaccCompile, SourceTask> impl
 	protected Class<JavaccCompile> getCompileTaskClass() { return JavaccCompile.class; }
 
 	/**
-	* Returns <code>null</code>: no documentation!
-	*/
-	protected Class<SourceTask> getDocTaskClass() { return null; }
-
-	/**
 	* Provides the necessary compile configuration names for Mirah.
 	*/
 	protected Collection<String> getCompileConfigurationNames() { return Collections.emptyList(); }
@@ -48,28 +43,44 @@ public class JavaccPlugin extends CompilerPlugin<JavaccCompile, SourceTask> impl
 		super.apply(project);
 	}
 
-	protected void postConfig(JavaccCompile compileTask, SourceSet set, Project project) {
+	protected void postConfig(final JavaccCompile compileTask, final SourceSet set, final Project project) {
 		compileTask.setSourceSet(set);
 
-		final Spec<File> javaSpec = new Spec<File> () {
-			public boolean isSatisfiedBy(File it) {
-				return it.getName().toLowerCase().endsWith(".java");
-			}
-		};
-
-		File destDir = new File(compileTask.getDestinationDir().getParent(), "javacc-gen");
+		File destDir = new File(project.getBuildDir(), "javacc-gen/" + set.getName()).getAbsoluteFile();
 		compileTask.setDestinationDir(destDir);
-
-		FileCollection genSource = project.files(destDir).filter(javaSpec);
-		FileCollection javaSource = project.files(compileTask.getSource()).filter(javaSpec);
-
+		
 		for(Task t : project.getTasksByName(set.getCompileJavaTaskName(), false)) {
 			Compile javaCompile = (Compile)t;
-			project.getLogger().info("Setting " + javaCompile + " to depend on " + compileTask);
+			project.getLogger().debug("Setting " + javaCompile + " to depend on " + compileTask);
 			javaCompile.dependsOn(compileTask);
-			javaCompile.source(javaSource);
-			javaCompile.source(genSource);
 		}
+
+		compileTask.doLast(new Action<Task>() {
+			public void execute(Task task) {
+				final ConfigurableFileTree javaInDestDir = project.fileTree(compileTask.getDestinationDir());
+				javaInDestDir.setIncludes(Collections.singletonList("**/*.java"));
+
+				FileCollection genSource = javaInDestDir;
+				for(File file : compileTask.getSource().getFiles()) {
+					final File dir;
+					if(file.isDirectory()) {
+						dir = file;
+					} else {
+						dir = file.getParentFile();
+					}
+					project.getLogger().debug("Adding in the Javacc source directory: " + dir);
+					final ConfigurableFileTree javaFiles = project.fileTree(dir.getAbsoluteFile());
+					javaFiles.setIncludes(Collections.singletonList("**/*.java"));
+					genSource = genSource.plus(javaFiles);
+				}
+
+				for(Task t : project.getTasksByName(set.getCompileJavaTaskName(), false)) {
+					Compile javaCompile = (Compile)t;
+					project.getLogger().debug("Adding sources to " + javaCompile + ": " + genSource.getAsPath());
+					javaCompile.source(javaCompile.getSource().plus(genSource));
+				}
+			}
+		});
 	}
 
 

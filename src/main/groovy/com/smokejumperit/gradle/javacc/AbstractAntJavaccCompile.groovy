@@ -19,14 +19,12 @@ abstract class AbstractAntJavaccCompile extends AbstractCompile {
 			throw new StopExecutionException("Need the JAVACC_HOME environment variable to be specified")
 		}
 
-		doLast {
-			new ArrayList(source.files).each { File file ->
-				project.ant."$antTaskName"(
-					javaccHome:JAVACC_HOME,
-					target:file,
-					outputDirectory:destinationDir
-				)
-			}
+		new ArrayList(source.files).each { File file ->
+			project.ant."$antTaskName"(
+				javaccHome:JAVACC_HOME,
+				target:file,
+				outputDirectory:destinationDir
+			)
 		}
 
 	}

@@ -2,7 +2,7 @@ apply plugin:'java'
 apply plugin:'groovy'
 apply plugin:'maven'
 
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 
 sourceCompatibility = "5"
 targetCompatibility = "5"
@@ -19,10 +19,10 @@ repositories {
   mavenRepo urls:'http://repo.smokejumperit.com'
 }
 dependencies {
-  groovy 'org.codehaus.groovy:groovy:1.8.0-rc-3'
+  groovy 'org.codehaus.groovy:groovy:1.8.0'
   deployerJars "org.apache.maven.wagon:wagon-ssh:1.0-beta-6" 
 	compile 'com.smokejumperit.gradle.compiler:base:0.0.3-SNAPSHOT'
-	compile 'com.smokejumperit:gradle-plugins:0.7.3'
+	compile 'com.smokejumperit:gradle-plugins:0.8.0'
   compile fileTree(
     dir:System.getenv().get('GRADLE_HOME'),
     includes:['**/*.jar']
