@@ -32,3 +32,12 @@ compile.
 
 Java files beside (or beneath) JavaCC/JJTree files, and JavaCC files beside (or beneath) JJTree files are also processed. This is 
 intended as a convenience for those who were using the JavaCC plugin.
+
+## Changelog
+
+### 0.0.3
+
+In the 0.0.1 version, running `gradle classes; gradle classes` would fail because the up-to-date `compileJavacc` task prevented the
+source for `compileJava` from being updated. The 0.0.2 version attempted to fix this, but that fix failed with customized source directories
+(the source for `compileJava` was updated before the source directory customization was applied). This fixes it the right way, if in a bit of
+overkill.  Also, added this changelog.

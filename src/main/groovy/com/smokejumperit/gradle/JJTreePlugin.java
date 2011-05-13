@@ -8,10 +8,14 @@ import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.compile.Compile;
 import com.smokejumperit.gradle.javacc.JJTreeCompile;
 import com.smokejumperit.gradle.javacc.JavaccCompile;
+import com.smokejumperit.gradle.javacc.Utils;
 import com.smokejumperit.gradle.compilers.CompilerPlugin;
 import com.smokejumperit.gradle.*;
 import java.util.*;
 import java.io.*;
+import com.google.common.collect.Collections2;
+import com.google.common.base.Predicate;
+import com.google.common.base.Function;
 
 public class JJTreePlugin extends CompilerPlugin<JJTreeCompile> implements Plugin<Project> {
 
@@ -45,71 +49,28 @@ public class JJTreePlugin extends CompilerPlugin<JJTreeCompile> implements Plugi
     File destDir = new File(compileTask.getDestinationDir().getParentFile().getParentFile(), "jjtree-gen/" + set.getName());
     compileTask.setDestinationDir(destDir);
 
-		for(Task t : project.getTasks().withType(JavaccCompile.class)) {
-			JavaccCompile jjCompile = (JavaccCompile)t;
-			if(set.equals(jjCompile.getSourceSet())) {
-				jjCompile.dependsOn(compileTask);
+		final Collection<JavaccCompile> javaccTasksForSet = Collections2.filter(( (Collection<JavaccCompile>)
+			project.getTasks().withType(JavaccCompile.class)
+		), new Predicate<JavaccCompile>() {
+			public boolean apply(JavaccCompile jjCompile) {
+				return set.equals(jjCompile.getSourceSet());
 			}
+		});
+		for(JavaccCompile jjCompile : javaccTasksForSet) {
+			jjCompile.dependsOn(compileTask);
 		}
-		for(Task t : project.getTasksByName(set.getCompileJavaTaskName(), false)) {
-			Compile javaCompile = (Compile)t;
+		Utils.passSource(compileTask, javaccTasksForSet, "jj");
+
+		final Collection<Compile> javaTasksForSet = Collections2.transform(
+			project.getTasksByName(set.getCompileJavaTaskName(), false),
+			new Function<Task,Compile>() {
+				public Compile apply(Task input) { return (Compile)input; }
+			}
+		);
+		for(Compile javaCompile : javaTasksForSet) {
 			javaCompile.dependsOn(compileTask);
 		}
-
-		compileTask.doLast(new Action<Task>() {
-			public void execute(Task task) {
-				final ConfigurableFileTree javaInDestDir = project.fileTree(compileTask.getDestinationDir());
-        javaInDestDir.setIncludes(Collections.singletonList("**/*.java"));
-
-        FileCollection genSource = javaInDestDir;
-        for(File file : compileTask.getSource().getFiles()) {
-          final File dir;
-          if(file.isDirectory()) {
-            dir = file;
-          } else {
-            dir = file.getParentFile();
-          }
-          project.getLogger().debug("Adding in a JJTree source directory: " + dir);
-          final ConfigurableFileTree javaFiles = project.fileTree(dir.getAbsoluteFile());
-          javaFiles.setIncludes(Collections.singletonList("**/*.java"));
-          genSource = genSource.plus(javaFiles);
-        }
-
-				for(Task t : project.getTasksByName(set.getCompileJavaTaskName(), false)) {
-					Compile javaCompile = (Compile)t;
-					javaCompile.source(javaCompile.getSource().plus(genSource));
-				}
-			}
-		});
-
-		compileTask.doLast(new Action<Task>() {
-			public void execute(Task task) {
-				final ConfigurableFileTree jjInDestDir = project.fileTree(compileTask.getDestinationDir());
-        jjInDestDir.setIncludes(Collections.singletonList("**/*.jj"));
-
-        FileCollection genSource = jjInDestDir;
-        for(File file : compileTask.getSource().getFiles()) {
-          final File dir;
-          if(file.isDirectory()) {
-            dir = file;
-          } else {
-            dir = file.getParentFile();
-          }
-          project.getLogger().debug("Adding in a JJTree source directory: " + dir);
-          final ConfigurableFileTree jjFiles = project.fileTree(dir.getAbsoluteFile());
-          jjFiles.setIncludes(Collections.singletonList("**/*.jj"));
-          genSource = genSource.plus(jjFiles);
-        }
-
-				for(Task t : project.getTasks().withType(JavaccCompile.class)) {
-					JavaccCompile jjCompile = (JavaccCompile)t;
-					if(set.equals(jjCompile.getSourceSet())) {
-						jjCompile.source(jjCompile.getSource().plus(genSource));
-					}
-				} 
-			}
-		});
-
+		Utils.passSource(compileTask, javaTasksForSet, "java");
   } 
 
 }

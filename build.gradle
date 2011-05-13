@@ -2,7 +2,7 @@ apply plugin:'java'
 apply plugin:'groovy'
 apply plugin:'maven'
 
-version = '0.0.1'
+version = '0.0.3'
 
 sourceCompatibility = "5"
 targetCompatibility = "5"
