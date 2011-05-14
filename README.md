@@ -16,7 +16,7 @@ Add the following lines to your `build.gradle` script:
         mavenRepo urls:'http://repo.smokejumperit.com'
       }
       dependencies {
-        classpath 'com.smokejumperit.gradle.compiler:javacc:0.0.1'
+        classpath 'com.smokejumperit.gradle.compiler:javacc:0.0.3'
       }
     }
 
