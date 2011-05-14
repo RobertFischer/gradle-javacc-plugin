@@ -21,7 +21,7 @@ repositories {
 dependencies {
   groovy 'org.codehaus.groovy:groovy:1.8.0'
   deployerJars "org.apache.maven.wagon:wagon-ssh:1.0-beta-6" 
-	compile 'com.smokejumperit.gradle.compiler:base:0.0.3-SNAPSHOT'
+	compile 'com.smokejumperit.gradle.compiler:base:0.0.3'
 	compile 'com.smokejumperit:gradle-plugins:0.8.0'
   compile fileTree(
     dir:System.getenv().get('GRADLE_HOME'),
