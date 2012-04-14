@@ -27,11 +27,12 @@ dependencies {
 	compile gradleApi()
 }
 
+/*
 uploadArchives { 
   repositories.mavenDeployer {
     def repoUser = System.properties['sjit.repo.user']
     configuration = configurations.deployerJars
-    repository(url: "scp://repo.smokejumperit.com/home/$repoUser/repo.smokejumperit.com/") {
+    repository(url: "scp://ssh.repo.smokejumperit.com/home/$repoUser/repo.smokejumperit.com/") {
       authentication(
         userName: repoUser,
         privateKey: System.properties['sjit.repo.keyFile'],
@@ -45,4 +46,31 @@ uploadArchives {
     }
   } 
 } 
+*/
+
+task writePom << {
+  pom {
+    project {
+      name("Gradle JavaCC Plugin")
+      description("An extension to the Gradle build system enabling the compiling of JavaCC/JJTree source code")
+      url("http://github.com/RobertFischer/gradle-javacc-plugin")
+      inceptionYear("2010")
+      licenses {
+        license {
+          name("CC0")
+          url("http://creativecommons.org/publicdomain/zero/1.0/")
+          distribution("repo")
+          comments("Basically public domain, but done right")
+        }
+      }
+			developers {
+				developer {
+					id("RobertFischer")
+					name("Robert Fischer")
+					url("http://smokejumperit.com")
+				}
+			}
+    }
+  }.writeTo("$buildDir/libs/${project.name}-${project.version}.pom")
+}
 

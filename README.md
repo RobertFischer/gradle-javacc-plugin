@@ -13,10 +13,16 @@ Add the following lines to your `build.gradle` script:
 
     buildscript {
       repositories {
-        mavenRepo urls:'http://repo.smokejumperit.com'
+				add(new org.apache.ivy.plugins.resolver.URLResolver()) {
+					name = 'GitHub'
+					addArtifactPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].[ext]'
+					addIvyPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].pom'
+					m2compatible = true
+				}
+				mavenCentral()
       }
       dependencies {
-        classpath 'com.smokejumperit.gradle.compiler:javacc:0.0.3'
+        classpath 'com.smokejumperit.gradle.compiler:javacc:0.0.4'
       }
     }
 
