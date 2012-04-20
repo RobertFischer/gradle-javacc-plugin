@@ -3,76 +3,22 @@ apply plugin:'maven'
 apply plugin:'groovy'
 
 group = "RobertFischer"
-version = '0.0.4'
+version = '0.0.4-SNAPSHOT'
+
+apply from:'http://smokejumperit.com/repo.gradle'
+apply from:'http://smokejumperit.com/github-dev.gradle'
 
 sourceCompatibility = "7"
 targetCompatibility = "7"
 
-if(!System.getenv().get('GRADLE_HOME')) throw new Exception('Please set $GRADLE_HOME')
-
-configurations {
-	deployerJars
-}
-
 repositories {
 	mavenLocal()
   mavenCentral()
-  mavenRepo url:'http://repo.smokejumperit.com'
-  mavenRepo url:'http://cloud.github.com/downloads/'
 }
 dependencies {
   groovy localGroovy()
-  deployerJars "org.apache.maven.wagon:wagon-ssh:1.0-beta-6" 
-	compile 'com.smokejumperit.gradle.compiler:base:0.0.3'
-	compile 'com.smokejumperit:gradle-plugins:0.8.0'
+	compile 'RobertFischer:gradle-compiler-base:0.0.4'
+	compile 'RobertFischer:gradle-plugins:0.8.4'
 	compile "com.google.guava:guava:11.0.2"
 	compile gradleApi()
 }
-
-/*
-uploadArchives { 
-  repositories.mavenDeployer {
-    def repoUser = System.properties['sjit.repo.user']
-    configuration = configurations.deployerJars
-    repository(url: "scp://ssh.repo.smokejumperit.com/home/$repoUser/repo.smokejumperit.com/") {
-      authentication(
-        userName: repoUser,
-        privateKey: System.properties['sjit.repo.keyFile'],
-        passphrase: System.properties['sjit.repo.passphrase']
-      )
-      pom {
-        groupId='com.smokejumperit.gradle.compiler'
-        artifactId='javacc'
-        version= project.version
-      }
-    }
-  } 
-} 
-*/
-
-task writePom << {
-  pom {
-    project {
-      name("Gradle JavaCC Plugin")
-      description("An extension to the Gradle build system enabling the compiling of JavaCC/JJTree source code")
-      url("http://github.com/RobertFischer/gradle-javacc-plugin")
-      inceptionYear("2010")
-      licenses {
-        license {
-          name("CC0")
-          url("http://creativecommons.org/publicdomain/zero/1.0/")
-          distribution("repo")
-          comments("Basically public domain, but done right")
-        }
-      }
-			developers {
-				developer {
-					id("RobertFischer")
-					name("Robert Fischer")
-					url("http://smokejumperit.com")
-				}
-			}
-    }
-  }.writeTo("$buildDir/libs/${project.name}-${project.version}.pom")
-}
-
