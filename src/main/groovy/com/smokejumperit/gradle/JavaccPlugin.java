@@ -52,7 +52,6 @@ public class JavaccPlugin extends CompilerPlugin<JavaccCompile> implements Plugi
 		File destDir = new File(project.getBuildDir(), "javacc-gen/" + set.getName()).getAbsoluteFile();
 		compileTask.setDestinationDir(destDir);
 
-		
 		final Collection<Compile> javaTasks = Collections2.transform(project.getTasksByName(set.getCompileJavaTaskName(), false),
 			new Function<Task,Compile>() {
 				public Compile apply(Task input) {
