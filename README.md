@@ -8,23 +8,21 @@ producing bytecode the same way the Java plugin does.
 
 Add the following lines to your `build.gradle` script:
 
+```groovy
+		apply from:'http://smokejumperit.com/github-libs.gradle'
+
     apply plugin:com.smokejumperit.gradle.compiler.JavaccPlugin
     apply plugin:com.smokejumperit.gradle.compiler.JJTreePlugin
 
     buildscript {
       repositories {
-				add(new org.apache.ivy.plugins.resolver.URLResolver()) {
-					name = 'GitHub'
-					addArtifactPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].[ext]'
-					addIvyPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].pom'
-					m2compatible = true
-				}
 				mavenCentral()
       }
       dependencies {
         classpath 'com.smokejumperit.gradle.compiler:javacc:0.0.4'
       }
     }
+```
 
 ## Usage
 
@@ -40,6 +38,10 @@ Java files beside (or beneath) JavaCC/JJTree files, and JavaCC files beside (or 
 intended as a convenience for those who were using the JavaCC plugin.
 
 ## Changelog
+
+### 0.0.4 
+
+Update to support Gradle 1.0 and the new 0.0.5 `compiler-base` plugin. Substantially less code in this plugin than before.
 
 ### 0.0.3
 

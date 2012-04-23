@@ -13,8 +13,9 @@ abstract class AbstractAntJavaccCompile extends AbstractCompile {
 	*/
 	abstract getAntTaskName();
 
+	@TaskAction
 	protected void compile() {
-		String JAVACC_HOME = project.env['JAVACC_HOME']
+		String JAVACC_HOME = System.getenv('JAVACC_HOME')
 		if(!JAVACC_HOME) {
 			throw new StopExecutionException("Need the JAVACC_HOME environment variable to be specified")
 		}
