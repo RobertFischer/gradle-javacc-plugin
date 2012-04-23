@@ -18,7 +18,7 @@ repositories {
 }
 dependencies {
   groovy localGroovy()
-	compile 'RobertFischer:gradle-compiler-base:0.0.5-SNAPSHOT'
+	compile 'RobertFischer:gradle-compiler-base:0.0.5'
 	//compile 'RobertFischer:gradle-plugins:0.8.4'
 	compile "com.google.guava:guava:11.0.2"
 	compile gradleApi()
