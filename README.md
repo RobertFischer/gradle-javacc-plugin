@@ -9,19 +9,19 @@ producing bytecode the same way the Java plugin does.
 Add the following lines to your `build.gradle` script:
 
 ```groovy
-		apply from:'http://smokejumperit.com/github-libs.gradle'
+apply from:'http://smokejumperit.com/github-libs.gradle'
 
-    apply plugin:com.smokejumperit.gradle.compiler.JavaccPlugin
-    apply plugin:com.smokejumperit.gradle.compiler.JJTreePlugin
+apply plugin:com.smokejumperit.gradle.compiler.JavaccPlugin
+apply plugin:com.smokejumperit.gradle.compiler.JJTreePlugin
 
-    buildscript {
-      repositories {
-				mavenCentral()
-      }
-      dependencies {
-        classpath 'com.smokejumperit.gradle.compiler:javacc:0.0.4'
-      }
-    }
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'com.smokejumperit.gradle.compiler:javacc:0.0.4'
+	}
+}
 ```
 
 ## Usage
