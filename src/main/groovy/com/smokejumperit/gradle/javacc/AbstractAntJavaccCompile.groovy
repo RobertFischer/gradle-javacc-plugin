@@ -21,7 +21,7 @@ abstract class AbstractAntJavaccCompile extends AbstractGenerator {
 			throw new StopExecutionException("Need the JAVACC_HOME environment variable to be specified")
 		}
 
-		new ArrayList(source.files).each { File file ->
+		source.files.each { File file ->
 			project.ant."$antTaskName"(
 				javaccHome:JAVACC_HOME,
 				target:file,

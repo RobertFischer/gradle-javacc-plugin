@@ -46,7 +46,7 @@ public class JJTreePlugin extends GeneratorPlugin<JJTreeCompile> implements Plug
 
 	@Override
   public void apply(Project project) {
-    project.apply(Collections.singletonMap("plugin", JavaccPlugin.class));
+    project.getPlugins().apply(JavaccPlugin.class);
     super.apply(project);
   }
 
