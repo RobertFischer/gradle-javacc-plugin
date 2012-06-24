@@ -13,8 +13,8 @@ apply from:'http://smokejumperit.com/github-libs.gradle'
 
 apply plugin:com.smokejumperit.gradle.compiler.JavaccPlugin
 
-// The next line only if you also want JJTree
-apply plugin:com.smokejumperit.gradle.compiler.JJTreePlugin 
+// Uncomment the next line if you also want JJTree
+// apply plugin:com.smokejumperit.gradle.compiler.JJTreePlugin 
 
 buildscript {
 	repositories {
