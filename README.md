@@ -12,14 +12,16 @@ Add the following lines to your `build.gradle` script:
 apply from:'http://smokejumperit.com/github-libs.gradle'
 
 apply plugin:com.smokejumperit.gradle.compiler.JavaccPlugin
-apply plugin:com.smokejumperit.gradle.compiler.JJTreePlugin
+
+// The next line only if you also want JJTree
+apply plugin:com.smokejumperit.gradle.compiler.JJTreePlugin 
 
 buildscript {
 	repositories {
 		mavenCentral()
 	}
 	dependencies {
-		classpath 'com.smokejumperit.gradle.compiler:javacc:0.0.4'
+		classpath 'RobertFischer:javacc:0.0.5'
 	}
 }
 ```

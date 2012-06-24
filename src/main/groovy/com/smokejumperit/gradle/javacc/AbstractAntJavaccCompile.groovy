@@ -1,12 +1,13 @@
 package com.smokejumperit.gradle.javacc
 
+import com.smokejumperit.gradle.compilers.AbstractGenerator
 import org.gradle.api.*
 import org.gradle.api.tasks.*
 import org.gradle.api.tasks.compile.*
 import org.gradle.api.plugins.*
 import org.gradle.api.file.*
 
-abstract class AbstractAntJavaccCompile extends AbstractCompile {
+abstract class AbstractAntJavaccCompile extends AbstractGenerator {
 
 	/**
 	* The name of the Ant task to execute
