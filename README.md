@@ -21,7 +21,7 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath 'RobertFischer:javacc:0.0.5'
+		classpath 'RobertFischer:gradle-javacc-plugin:0.0.5'
 	}
 }
 ```
