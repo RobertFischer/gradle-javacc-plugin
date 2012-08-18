@@ -9,7 +9,8 @@ producing bytecode the same way the Java plugin does.
 Add the following lines to your `build.gradle` script:
 
 ```groovy
-apply from:'http://smokejumperit.com/github-libs.gradle'
+// See RobertFischer/gradle-scripts
+apply from:'http://gradle.smokejumperit.com/github-libs.gradle'
 
 apply plugin:com.smokejumperit.gradle.compiler.JavaccPlugin
 
@@ -21,7 +22,7 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath 'RobertFischer:gradle-javacc-plugin:0.0.5'
+		classpath 'RobertFischer:gradle-javacc-plugin:0.0.5.1'
 	}
 }
 ```
