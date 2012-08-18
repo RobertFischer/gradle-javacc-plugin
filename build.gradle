@@ -3,10 +3,11 @@ apply plugin:'maven'
 apply plugin:'groovy'
 
 group = "RobertFischer"
-version = '0.0.5'
+version = '0.0.5.1'
 
-apply from:'http://smokejumperit.com/repo.gradle'
-apply from:'http://smokejumperit.com/github-dev.gradle'
+apply from:'http://gradle.smokejumperit.com/sjit_repo.gradle'
+apply from:'http://gradle.smokejumperit.com/github-dev.gradle'
+apply from:'http://gradle.smokejumperit.com/all-jars.gradle'
 
 sourceCompatibility = "7"
 targetCompatibility = "7"
@@ -18,7 +19,7 @@ repositories {
 }
 dependencies {
   groovy localGroovy()
-	compile 'RobertFischer:gradle-compiler-base:0.0.6'
-	compile "com.google.guava:guava:12.0"
+	compile 'RobertFischer:gradle-compiler-base:[0.0.6.1,1)'
+	compile "com.google.guava:guava:13.0"
 	compile gradleApi()
 }
