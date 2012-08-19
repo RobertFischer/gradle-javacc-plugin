@@ -2,7 +2,7 @@ apply plugin:'java'
 apply plugin:'maven'
 apply plugin:'groovy'
 
-group = "RobertFischer"
+group = "org.fogbeam.gradle"
 version = '0.0.5.1'
 
 apply from:'http://gradle.smokejumperit.com/sjit_repo.gradle'
@@ -19,7 +19,7 @@ repositories {
 }
 dependencies {
   groovy localGroovy()
-	compile 'RobertFischer:gradle-compiler-base:[0.0.6.1,1)'
+	compile 'RobertFischer:gradle-compiler-base:[0.0.6.2,1)'
 	compile "com.google.guava:guava:13.0"
 	compile gradleApi()
 }
